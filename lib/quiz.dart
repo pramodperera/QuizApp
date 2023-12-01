@@ -1,39 +1,70 @@
-import  'package:flutter/material.dart';
+import 'package:flutter/material.dart';
+import 'data/questions.dart';
+import 'start_screen.dart';
+import 'question_screen.dart';
+import 'result_screen.dart';
 
+class Quizwidget extends StatefulWidget {
+  const Quizwidget({Key? key}) : super(key: key);
 
+  @override
+  State<Quizwidget> createState() => _QuizwidgetState();
+}
 
-class quizWidget extends StatelessWidget {
-  const quizWidget({Key? key}) : super(key: key);
+class _QuizwidgetState extends State<Quizwidget> {
+  String activeScreen = 'start';
+  List<String> selectedAnswers = [];
 
+  void onScreenChange(String value) {
+    setState(() {
+      activeScreen = value;
+    });
+  }
 
-  void onScrrenChange(){
+  void onAnswerSelect(String answer) {
+    selectedAnswers.add(answer);
+    if (selectedAnswers.length == questions.length) {
+      setState(() {
+        activeScreen = 'result';
+      });
+    }
+  }
 
+  void onRestart(String value) {
+    setState(() {
+      selectedAnswers = [];
+      activeScreen = value;
+    });
   }
 
   @override
   Widget build(BuildContext context) {
+    Widget? currentScreen ;
 
-    if(activeScreen=='start')
-    return   MaterialApp(
+    if (activeScreen == 'start') {
+      currentScreen = StartScreen(onAction: onScreenChange);
+    }
+
+    if (activeScreen == 'quiz') {
+      currentScreen =
+          QuestionScreen(onAnswer: onAnswerSelect, onAction: onScreenChange);
+    }
+
+    if (activeScreen == 'result') {
+      currentScreen =
+          ResultScreen(onAction: onRestart, answerList: selectedAnswers);
+    }
+
+    return MaterialApp(
       home: Scaffold(
-        body: Container(
-          decoration: const BoxDecoration(
+          body: Container(
+        decoration: const BoxDecoration(
             gradient: LinearGradient(
-              begin: Alignment.topCenter,
-              end: Alignment.bottomCenter,
-              colors: [Colors.black,Colors.white]
-            )
-          ),
-            child: const Text('Welcome to Quiz App',style: TextStyle(
-              color: Colors.black,
-              fontSize: 10,
-            ),)
-        ),
-        
-        
-      ),
-      
-      
+                begin: Alignment.topCenter,
+                end: Alignment.bottomCenter,
+                colors: [Colors.white, Colors.grey])),
+        child: currentScreen,
+      )),
     );
   }
 }

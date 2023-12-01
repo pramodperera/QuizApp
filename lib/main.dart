@@ -4,5 +4,5 @@ import 'package:quizapp/quiz.dart';
 
 
 void main(){
-  runApp(const quizWidget());
+  runApp(const Quizwidget());
 }
