@@ -58,7 +58,7 @@ class ResultScreen extends StatelessWidget {
                     Text('Question: ${s['question']}'),
                     Text('Correct Answer: ${s['correct_answer']}'),
                     Text('User Answer: ${s['user_answer']}'),
-                    SizedBox(height: 20),  // Adjust the height as desired
+                    SizedBox(height: 20),
                   ],
                 )).toList(),
               ),
